@@ -2,8 +2,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const formElement = document.getElementById('create-task-form');
   const taskList = document.getElementById('tasks');
 
+  // Event listener for form submission
   formElement.addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent the default form submission
+    event.preventDefault(); 
 
     // Get task description and priority values from the form
     const descriptionInput = document.getElementById('new-task-description');
@@ -17,6 +18,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Assign priority class to the task item based on selected priority
     taskItem.classList.add(`priority-${priority}`);
+
+    // Color the task based on priority (for example, red for high, yellow for medium, green for low)
+    if (priority === 'high') {
+      taskItem.style.color = 'red';
+    } else if (priority === 'medium') {
+      taskItem.style.color = 'yellow';
+    } else {
+      taskItem.style.color = 'green';
+    }
 
     // Add delete button to the task item
     const deleteButton = document.createElement('button');
@@ -34,15 +44,21 @@ document.addEventListener("DOMContentLoaded", () => {
     prioritySelect.value = 'low';
   });
 
-  // Sort tasks by priority
+  // Event listener for sorting tasks by priority
   const sortButton = document.getElementById('sort-button');
   sortButton.addEventListener('click', function() {
     const tasks = Array.from(taskList.children);
+    
+    // Create a priority map to order priorities correctly (high < medium < low)
+    const priorityMap = { high: 1, medium: 2, low: 3 };
+
     tasks.sort(function(a, b) {
-      const priorityA = a.classList[0].split('-')[1];
+      const priorityA = a.classList[0].split('-')[1]; 
       const priorityB = b.classList[0].split('-')[1];
-      return priorityA.localeCompare(priorityB);
+      return priorityMap[priorityA] - priorityMap[priorityB];
     });
+
+    // Re-append the sorted tasks
     tasks.forEach(function(task) {
       taskList.appendChild(task);
     });
