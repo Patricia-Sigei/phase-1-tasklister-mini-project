@@ -107,9 +107,8 @@ document.addEventListener("DOMContentLoaded", () => {
   sortButton.addEventListener('click', function() {
     const tasks = Array.from(taskList.children);
     
-  // Create a priority list to order priorities correctly (high < medium < low)
+  // Create a priority map to order priorities correctly (high < medium < low)
     const priorityMap = { high: 1, medium: 2, low: 3 };
-
 // Extract priority from class
     tasks.sort(function(a, b) {
       const priorityA = a.classList[0].split('-')[1]; 
@@ -117,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return priorityMap[priorityA] - priorityMap[priorityB];
     });
 
-  // Re-append the sorted tasks
+    // Re-append the sorted tasks
     tasks.forEach(function(task) {
       taskList.appendChild(task);
     });
